@@ -2,10 +2,24 @@ import Link from "next/link";
 import { getTranslations } from "../../utils/translations";
 import OrderDetails from "./OrderDetails"; // We'll create this client component
 
+// Define the params type
+type OrderPageParams = {
+  id: string;
+};
+
+// Define the props type
+type OrderPageProps = {
+  params: OrderPageParams;
+  searchParams?: { [key: string]: string | string[] | undefined };
+};
+
 // This is a server component
-export default function OrderPage({ params }: { params: { id: string } }) {
+export default async function OrderPage({ params }: OrderPageProps) {
   // Fetch order data server-side
   const orderId = params.id;
+  
+  // In a real app, you would fetch data here
+  // const orderData = await fetchOrderData(orderId);
   
   // Mock data for demonstration
   const orderData = {
