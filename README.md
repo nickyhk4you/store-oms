@@ -63,7 +63,7 @@ Store OMS is a comprehensive omnichannel order management system designed for re
 
 1. Clone the repository
 ```bash
-git clone https://github.com/your-username/store-oms.git
+git clone https://github.com/nickyhk4you/store-oms.git
 cd store-oms
 ```
 
