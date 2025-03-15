@@ -76,6 +76,17 @@ const translations = {
     'shipping': '运费',
     'tax': '税费',
     'notes': '备注',
+    'search.orders': '订单查询',
+    'search': '搜索',
+    'reset': '重置',
+    'search.by.order.id': '按订单编号搜索',
+    'search.by.customer': '按客户名称搜索',
+    'customer.name': '客户名称',
+    'start.date': '开始日期',
+    'end.date': '结束日期',
+    'all.statuses': '所有状态',
+    'no.results': '没有找到匹配的订单',
+    'items.per.page': '每页显示',
   },
   en: {
     // Common
@@ -142,6 +153,17 @@ const translations = {
     'shipping': 'Shipping',
     'tax': 'Tax',
     'notes': 'Notes',
+    'search.orders': 'Search Orders',
+    'search': 'Search',
+    'reset': 'Reset',
+    'search.by.order.id': 'Search by order ID',
+    'search.by.customer': 'Search by customer name',
+    'customer.name': 'Customer Name',
+    'start.date': 'Start Date',
+    'end.date': 'End Date',
+    'all.statuses': 'All Statuses',
+    'no.results': 'No matching orders found',
+    'items.per.page': 'Items per page',
   }
 };
 
