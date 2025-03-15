@@ -116,7 +116,7 @@ export default function DashboardPage() {
   const { language, t } = useLanguage();
   const [salesData, setSalesData] = useState<SalesDataPoint[]>([]);
   const [recentOrders, setRecentOrders] = useState<OrderItem[]>([]);
-  const chartRef = useRef<ChartJS>(null);
+  const chartRef = useRef<Chart<"line">>(null);
   
   // 模拟订单状态分布
   const orderStatusData = language === 'zh' 
