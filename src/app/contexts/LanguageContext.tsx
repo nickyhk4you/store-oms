@@ -275,6 +275,13 @@ const translations: TranslationSet = {
     'inventory.insight.2': '小红书渠道库存过高，建议调整库存分配策略',
     'inventory.insight.3': '线下门店库存周转率低，建议减少库存分配',
     'inventory.insight.4': '京东渠道库存趋势上升，预计未来需求增加',
+    'inventory.overview': '库存概览',
+    'inventory.list': '库存列表',
+    'channel.management': '渠道管理',
+    'inventory.activity': '库存活动',
+    'in.stock.products': '有库存产品',
+    'low.stock.products': '库存不足产品',
+    'out.of.stock.products': '缺货产品',
   },
   en: {
     // General
@@ -530,6 +537,13 @@ const translations: TranslationSet = {
     'inventory.insight.2': 'Xiaohongshu channel inventory is too high, consider adjusting allocation strategy',
     'inventory.insight.3': 'Offline stores have low turnover rate, consider reducing inventory allocation',
     'inventory.insight.4': 'JD.com channel inventory trend is rising, anticipate increased demand',
+    'inventory.overview': 'Inventory Overview',
+    'inventory.list': 'Inventory List',
+    'channel.management': 'Channel Management',
+    'inventory.activity': 'Inventory Activity',
+    'in.stock.products': 'In Stock Products',
+    'low.stock.products': 'Low Stock Products',
+    'out.of.stock.products': 'Out of Stock Products',
   }
 };
 
