@@ -8,6 +8,8 @@ import Image from "next/image";
 // 导入图表相关组件
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, Title } from 'chart.js';
 import { Pie, Bar } from 'react-chartjs-2';
+// Import the InventoryActions component
+import InventoryActions from '../components/inventory/InventoryActions';
 
 // 注册 Chart.js 组件
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, Title);
@@ -1014,16 +1016,16 @@ export default function InventoryPage() {
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                               {item.lastUpdated}
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                              <button className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 mr-3">
-                                {t('view')}
-                              </button>
-                              <button className="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300 mr-3">
-                                {t('adjust')}
-                              </button>
-                              <button className="text-purple-600 hover:text-purple-900 dark:text-purple-400 dark:hover:text-purple-300">
-                                {t('transfer')}
-                              </button>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                              <InventoryActions 
+                                item={item} 
+                                onUpdate={() => {
+                                  // In a real app, you would refresh the data
+                                  console.log('Inventory updated');
+                                  // Optionally refresh the data
+                                  // setFilteredInventory([...filteredInventory]);
+                                }} 
+                              />
                             </td>
                           </tr>
                         ))
