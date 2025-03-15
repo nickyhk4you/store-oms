@@ -17,48 +17,73 @@ export default function OrderDetailsPage({ params }: { params: { id: string } })
       phone: "13800138000",
       address: "北京市朝阳区某某街道123号"
     },
-    date: "2023年10月15日",
+    date: "2023-05-15",
     status: "已完成",
+    channel: "小红书",
     paymentMethod: "支付宝",
-    shippingMethod: "标准快递",
+    shippingMethod: "顺丰速运",
     items: [
-      { id: 1, name: "产品A", sku: "SKU-001", quantity: 2, price: "¥499.99", total: "¥999.98" },
-      { id: 2, name: "产品B", sku: "SKU-002", quantity: 1, price: "¥234.99", total: "¥234.99" },
-      { id: 3, name: "产品C", sku: "SKU-003", quantity: 1, price: "¥22.02", total: "¥22.02" }
+      {
+        id: "PROD-001",
+        name: "高级保湿面霜",
+        price: "¥299.00",
+        quantity: 1,
+        total: "¥299.00"
+      },
+      {
+        id: "PROD-002",
+        name: "精华液",
+        price: "¥459.00",
+        quantity: 2,
+        total: "¥918.00"
+      }
     ],
-    subtotal: "¥1,256.99",
-    shipping: "¥0.00",
-    tax: "¥0.00",
-    total: "¥1,256.99",
-    notes: "客户要求为产品A提供礼品包装。"
+    subtotal: "¥1,217.00",
+    shipping: "¥20.00",
+    tax: "¥73.02",
+    total: "¥1,310.02",
+    notes: "请在工作日送货，周末不在家。"
   };
-
+  
   const enOrder = {
     id: orderId,
     customer: {
       name: "John Doe",
-      email: "john.doe@example.com",
-      phone: "(555) 123-4567",
-      address: "123 Main St, Anytown, CA 94321"
+      email: "johndoe@example.com",
+      phone: "+1 (555) 123-4567",
+      address: "123 Main St, Anytown, CA 12345, USA"
     },
-    date: "October 15, 2023",
+    date: "2023-05-15",
     status: "Completed",
-    paymentMethod: "Credit Card (Visa ending in 4242)",
-    shippingMethod: "Standard Shipping",
+    channel: "Xiaohongshu",
+    paymentMethod: "PayPal",
+    shippingMethod: "Express Delivery",
     items: [
-      { id: 1, name: "Product A", sku: "SKU-001", quantity: 2, price: "$73.53", total: "$147.06" },
-      { id: 2, name: "Product B", sku: "SKU-002", quantity: 1, price: "$34.56", total: "$34.56" },
-      { id: 3, name: "Product C", sku: "SKU-003", quantity: 1, price: "$3.24", total: "$3.24" }
+      {
+        id: "PROD-001",
+        name: "Premium Moisturizing Cream",
+        price: "$45.99",
+        quantity: 1,
+        total: "$45.99"
+      },
+      {
+        id: "PROD-002",
+        name: "Essence Serum",
+        price: "$69.99",
+        quantity: 2,
+        total: "$139.98"
+      }
     ],
-    subtotal: "$184.86",
-    shipping: "$0.00",
-    tax: "$0.00",
-    total: "$184.86",
-    notes: "Customer requested gift wrapping for Product A."
+    subtotal: "$185.97",
+    shipping: "$5.99",
+    tax: "$11.16",
+    total: "$203.12",
+    notes: "Please deliver on weekdays, not available on weekends."
   };
-
+  
+  // 根据当前语言选择订单数据
   const order = language === 'zh' ? zhOrder : enOrder;
-
+  
   // 获取状态颜色的辅助函数
   function getStatusColor(status: string) {
     if (language === 'zh') {
@@ -89,129 +114,195 @@ export default function OrderDetailsPage({ params }: { params: { id: string } })
       }
     }
   }
-
+  
+  // 获取渠道图标的辅助函数
+  function getChannelIcon(channel: string) {
+    switch (channel) {
+      case '小红书':
+      case 'Xiaohongshu':
+        return (
+          <span className="inline-flex items-center px-2 py-1 text-xs rounded bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300">
+            <svg className="w-3 h-3 mr-1" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-6h2v6zm4 0h-2v-6h2v6z"/>
+            </svg>
+            {channel}
+          </span>
+        );
+      case '京东':
+      case 'JD.com':
+        return (
+          <span className="inline-flex items-center px-2 py-1 text-xs rounded bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300">
+            <svg className="w-3 h-3 mr-1" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-6h2v6zm4 0h-2v-6h2v6z"/>
+            </svg>
+            {channel}
+          </span>
+        );
+      case '淘宝':
+      case 'Taobao':
+        return (
+          <span className="inline-flex items-center px-2 py-1 text-xs rounded bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300">
+            <svg className="w-3 h-3 mr-1" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-6h2v6zm4 0h-2v-6h2v6z"/>
+            </svg>
+            {channel}
+          </span>
+        );
+      case '抖音':
+      case 'Douyin':
+        return (
+          <span className="inline-flex items-center px-2 py-1 text-xs rounded bg-black text-white">
+            <svg className="w-3 h-3 mr-1" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-6h2v6zm4 0h-2v-6h2v6z"/>
+            </svg>
+            {channel}
+          </span>
+        );
+      case '微信小程序':
+      case 'WeChat Mini Program':
+        return (
+          <span className="inline-flex items-center px-2 py-1 text-xs rounded bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">
+            <svg className="w-3 h-3 mr-1" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-6h2v6zm4 0h-2v-6h2v6z"/>
+            </svg>
+            {channel}
+          </span>
+        );
+      case '线下门店':
+      case 'Offline Store':
+        return (
+          <span className="inline-flex items-center px-2 py-1 text-xs rounded bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300">
+            <svg className="w-3 h-3 mr-1" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-6h2v6zm4 0h-2v-6h2v6z"/>
+            </svg>
+            {channel}
+          </span>
+        );
+      default:
+        return (
+          <span className="inline-flex items-center px-2 py-1 text-xs rounded bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300">
+            {channel}
+          </span>
+        );
+    }
+  }
+  
   return (
     <div className="min-h-screen p-8 font-[family-name:var(--font-geist-sans)]">
-      <main className="max-w-6xl mx-auto">
-        <div className="mb-8">
-          <Link href="/orders" className="text-blue-600 hover:underline flex items-center gap-1">
-            ← {t('back.to.orders')}
+      <main className="max-w-7xl mx-auto">
+        <div className="mb-6">
+          <Link href="/orders" className="text-blue-600 hover:underline flex items-center">
+            <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+            </svg>
+            {t('back.to.orders')}
           </Link>
         </div>
-
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold">
-            {t('order')} {order.id}
-          </h1>
-          <div className="flex gap-3">
-            <button className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
-              {t('print')}
-            </button>
-            <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm font-medium">
-              {t('update.status')}
-            </button>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-            <h2 className="text-lg font-semibold mb-4">{t('customer.info')}</h2>
-            <p className="font-medium">{order.customer.name}</p>
-            <p className="text-gray-600 dark:text-gray-400">{order.customer.email}</p>
-            <p className="text-gray-600 dark:text-gray-400">{order.customer.phone}</p>
-          </div>
-
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-            <h2 className="text-lg font-semibold mb-4">{t('shipping.address')}</h2>
-            <p className="text-gray-600 dark:text-gray-400">{order.customer.address}</p>
-          </div>
-
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-            <h2 className="text-lg font-semibold mb-4">{t('order.summary')}</h2>
-            <div className="flex justify-between mb-2">
-              <span className="text-gray-600 dark:text-gray-400">{t('date')}:</span>
-              <span>{order.date}</span>
+        
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden mb-8">
+          <div className="p-6 border-b border-gray-200 dark:border-gray-700 flex flex-col md:flex-row justify-between items-start md:items-center">
+            <div>
+              <h1 className="text-2xl font-bold mb-2">{t('order')} {order.id}</h1>
+              <div className="flex flex-wrap items-center gap-3">
+                <span className="text-gray-600 dark:text-gray-400">{order.date}</span>
+                <span className={`px-2 py-1 text-xs rounded-full ${getStatusColor(order.status)}`}>
+                  {order.status}
+                </span>
+                {getChannelIcon(order.channel)}
+              </div>
             </div>
-            <div className="flex justify-between mb-2">
-              <span className="text-gray-600 dark:text-gray-400">{t('status')}:</span>
-              <span className={`px-2 py-1 text-xs rounded-full ${getStatusColor(order.status)}`}>
-                {order.status}
-              </span>
-            </div>
-            <div className="flex justify-between mb-2">
-              <span className="text-gray-600 dark:text-gray-400">{t('payment.method')}:</span>
-              <span>{order.paymentMethod}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-gray-600 dark:text-gray-400">{t('shipping.method')}:</span>
-              <span>{order.shippingMethod}</span>
+            <div className="flex mt-4 md:mt-0 space-x-3">
+              <button className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
+                {t('print')}
+              </button>
+              <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm font-medium">
+                {t('update.status')}
+              </button>
             </div>
           </div>
-        </div>
-
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden mb-6">
-          <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-            <h2 className="text-lg font-semibold">{t('order.items')}</h2>
-          </div>
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-gray-50 dark:bg-gray-700 text-left">
-                <tr>
-                  <th className="px-6 py-3 text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                    {t('product')}
-                  </th>
-                  <th className="px-6 py-3 text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                    {t('quantity')}
-                  </th>
-                  <th className="px-6 py-3 text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                    {t('price')}
-                  </th>
-                  <th className="px-6 py-3 text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider text-right">
-                    {t('total')}
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                {order.items.map((item) => (
-                  <tr key={item.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
-                    <td className="px-6 py-4">
-                      <div>
-                        <p className="font-medium">{item.name}</p>
-                        <p className="text-sm text-gray-500 dark:text-gray-400">SKU: {item.sku}</p>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">{item.quantity}</td>
-                    <td className="px-6 py-4">{item.price}</td>
-                    <td className="px-6 py-4 text-right">{item.total}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <div className="p-6 border-t border-gray-200 dark:border-gray-700">
-            <div className="flex justify-end">
-              <div className="w-64">
-                <div className="flex justify-between mb-2">
-                  <span>{t('subtotal')}:</span>
-                  <span>{order.subtotal}</span>
+          
+          <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+              <h2 className="text-lg font-semibold mb-4">{t('customer.info')}</h2>
+              <div className="space-y-2">
+                <p className="font-medium">{order.customer.name}</p>
+                <p>{order.customer.email}</p>
+                <p>{order.customer.phone}</p>
+              </div>
+              
+              <h2 className="text-lg font-semibold mt-6 mb-4">{t('shipping.address')}</h2>
+              <p className="whitespace-pre-line">{order.customer.address}</p>
+            </div>
+            
+            <div>
+              <h2 className="text-lg font-semibold mb-4">{t('order.summary')}</h2>
+              <div className="space-y-2">
+                <div className="flex justify-between">
+                  <span className="text-gray-600 dark:text-gray-400">{t('payment.method')}:</span>
+                  <span>{order.paymentMethod}</span>
                 </div>
-                <div className="flex justify-between mb-2">
-                  <span>{t('shipping')}:</span>
-                  <span>{order.shipping}</span>
+                <div className="flex justify-between">
+                  <span className="text-gray-600 dark:text-gray-400">{t('shipping.method')}:</span>
+                  <span>{order.shippingMethod}</span>
                 </div>
-                <div className="flex justify-between mb-2">
-                  <span>{t('tax')}:</span>
-                  <span>{order.tax}</span>
-                </div>
-                <div className="flex justify-between font-bold text-lg pt-2 border-t border-gray-200 dark:border-gray-700">
-                  <span>{t('total')}:</span>
-                  <span>{order.total}</span>
+                <div className="flex justify-between">
+                  <span className="text-gray-600 dark:text-gray-400">{t('channel')}:</span>
+                  <span>{order.channel}</span>
                 </div>
               </div>
             </div>
           </div>
+          
+          <div className="p-6 border-t border-gray-200 dark:border-gray-700">
+            <h2 className="text-lg font-semibold mb-4">{t('order.items')}</h2>
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="text-xs uppercase text-gray-700 dark:text-gray-400 border-b border-gray-200 dark:border-gray-700">
+                  <tr>
+                    <th className="px-4 py-3 text-left">{t('product')}</th>
+                    <th className="px-4 py-3 text-center">{t('quantity')}</th>
+                    <th className="px-4 py-3 text-right">{t('price')}</th>
+                    <th className="px-4 py-3 text-right">{t('total')}</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                  {order.items.map((item, index) => (
+                    <tr key={index}>
+                      <td className="px-4 py-4">
+                        <div>
+                          <div className="font-medium">{item.name}</div>
+                          <div className="text-sm text-gray-500 dark:text-gray-400">{item.id}</div>
+                        </div>
+                      </td>
+                      <td className="px-4 py-4 text-center">{item.quantity}</td>
+                      <td className="px-4 py-4 text-right">{item.price}</td>
+                      <td className="px-4 py-4 text-right">{item.total}</td>
+                    </tr>
+                  ))}
+                </tbody>
+                <tfoot className="border-t border-gray-200 dark:border-gray-700">
+                  <tr>
+                    <td colSpan={3} className="px-4 py-3 text-right font-medium">{t('subtotal')}:</td>
+                    <td className="px-4 py-3 text-right">{order.subtotal}</td>
+                  </tr>
+                  <tr>
+                    <td colSpan={3} className="px-4 py-3 text-right font-medium">{t('shipping')}:</td>
+                    <td className="px-4 py-3 text-right">{order.shipping}</td>
+                  </tr>
+                  <tr>
+                    <td colSpan={3} className="px-4 py-3 text-right font-medium">{t('tax')}:</td>
+                    <td className="px-4 py-3 text-right">{order.tax}</td>
+                  </tr>
+                  <tr className="border-t border-gray-200 dark:border-gray-700">
+                    <td colSpan={3} className="px-4 py-3 text-right font-bold">{t('total')}:</td>
+                    <td className="px-4 py-3 text-right font-bold">{order.total}</td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
         </div>
-
+        
         {order.notes && (
           <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
             <h2 className="text-lg font-semibold mb-4">{t('notes')}</h2>

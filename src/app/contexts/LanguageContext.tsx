@@ -117,6 +117,18 @@ const translations: TranslationSet = {
     'customers.coming.soon': '客户管理功能即将推出',
     'products.page.description': '产品管理功能正在开发中，敬请期待。您将能够添加、编辑和管理所有产品信息。',
     'customers.page.description': '客户管理功能正在开发中，敬请期待。您将能够查看客户信息、订单历史和管理客户关系。',
+    'channel': '渠道',
+    'channel.all': '所有渠道',
+    'channel.xiaohongshu': '小红书',
+    'channel.jd': '京东',
+    'channel.taobao': '淘宝',
+    'channel.douyin': '抖音',
+    'channel.wechat': '微信小程序',
+    'channel.offline': '线下门店',
+    'channel.other': '其他渠道',
+    'filter.by.channel': '按渠道筛选',
+    'channel.analysis': '渠道分析',
+    'top.channels': '热门渠道',
   },
   en: {
     // General
@@ -214,6 +226,18 @@ const translations: TranslationSet = {
     'customers.coming.soon': 'Customer management features coming soon',
     'products.page.description': 'Product management features are under development. You will be able to add, edit, and manage all product information.',
     'customers.page.description': 'Customer management features are under development. You will be able to view customer information, order history, and manage customer relationships.',
+    'channel': 'Channel',
+    'channel.all': 'All Channels',
+    'channel.xiaohongshu': 'Xiaohongshu',
+    'channel.jd': 'JD.com',
+    'channel.taobao': 'Taobao',
+    'channel.douyin': 'Douyin',
+    'channel.wechat': 'WeChat Mini Program',
+    'channel.offline': 'Offline Store',
+    'channel.other': 'Other Channels',
+    'filter.by.channel': 'Filter by Channel',
+    'channel.analysis': 'Channel Analysis',
+    'top.channels': 'Top Channels',
   }
 };
 
