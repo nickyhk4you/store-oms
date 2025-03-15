@@ -6,6 +6,16 @@ import { useLanguage } from "../contexts/LanguageContext";
 import OrderSearch, { OrderFilters } from "../components/OrderSearch";
 import Pagination from "../components/Pagination";
 
+// 添加订单项的接口
+interface OrderItem {
+  id: string;
+  customer: string;
+  date: string;
+  status: string;
+  channel: string;
+  total: string;
+}
+
 // 模拟订单数据 - 扩展更多数据用于分页演示
 const generateOrders = (language: string, count: number) => {
   const zhCustomers = ['张三', '李四', '王五', '赵六', '钱七', '孙八', '周九', '吴十', '郑十一', '王十二'];
@@ -60,10 +70,10 @@ const generateOrders = (language: string, count: number) => {
 
 export default function OrdersPage() {
   const { language, t } = useLanguage();
-  const [orders, setOrders] = useState<any[]>([]);
-  const [filteredOrders, setFilteredOrders] = useState<any[]>([]);
+  const [orders, setOrders] = useState<OrderItem[]>([]);
+  const [filteredOrders, setFilteredOrders] = useState<OrderItem[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [_itemsPerPage, setItemsPerPage] = useState(10); // 添加下划线前缀
   
   useEffect(() => {
     // 生成模拟订单数据
@@ -112,8 +122,8 @@ export default function OrdersPage() {
   };
   
   // 获取当前页的订单
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const indexOfLastItem = currentPage * _itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - _itemsPerPage;
   const currentOrders = filteredOrders.slice(indexOfFirstItem, indexOfLastItem);
   
   // 获取状态颜色的辅助函数
@@ -289,9 +299,9 @@ export default function OrdersPage() {
               
               <Pagination
                 currentPage={currentPage}
-                totalPages={Math.ceil(filteredOrders.length / itemsPerPage)}
+                totalPages={Math.ceil(filteredOrders.length / _itemsPerPage)}
                 totalItems={filteredOrders.length}
-                itemsPerPage={itemsPerPage}
+                itemsPerPage={_itemsPerPage}
                 onPageChange={handlePageChange}
               />
             </>

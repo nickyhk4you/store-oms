@@ -13,7 +13,9 @@ import {
   Title,
   Tooltip,
   Legend,
-  Filler
+  Filler,
+  ChartData,
+  ChartOptions
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 
@@ -29,6 +31,20 @@ ChartJS.register(
   Legend,
   Filler
 );
+
+// 添加适当的类型定义，替换 any
+interface SalesDataPoint {
+  date: string;
+  sales: number;
+}
+
+interface OrderItem {
+  id: string;
+  customer: string;
+  date: string;
+  status: string;
+  total: string;
+}
 
 // 模拟数据生成函数
 const generateChartData = (days: number) => {
@@ -98,8 +114,8 @@ const generateRecentOrders = (language: string, count: number) => {
 
 export default function DashboardPage() {
   const { language, t } = useLanguage();
-  const [salesData, setSalesData] = useState<any[]>([]);
-  const [recentOrders, setRecentOrders] = useState<any[]>([]);
+  const [salesData, setSalesData] = useState<SalesDataPoint[]>([]);
+  const [recentOrders, setRecentOrders] = useState<OrderItem[]>([]);
   const chartRef = useRef<ChartJS>(null);
   
   // 模拟订单状态分布
@@ -160,7 +176,7 @@ export default function DashboardPage() {
   }
 
   // 准备图表数据
-  const chartData = {
+  const chartData: ChartData<'line'> = {
     labels: salesData.map(item => {
       const date = new Date(item.date);
       return `${date.getMonth() + 1}/${date.getDate()}`;
@@ -184,7 +200,7 @@ export default function DashboardPage() {
   };
 
   // 图表配置
-  const chartOptions = {
+  const chartOptions: ChartOptions<'line'> = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
