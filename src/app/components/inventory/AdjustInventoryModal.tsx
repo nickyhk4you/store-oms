@@ -30,12 +30,12 @@ export default function AdjustInventoryModal({ isOpen, onClose, inventoryItem, o
 
   const handleSubmit = () => {
     if (!quantity) {
-      setError(t('quantity.required'));
+      setError(t('quantity.required.error'));
       return;
     }
     
     if (!reason) {
-      setError(t('reason.required'));
+      setError(t('reason.required.error'));
       return;
     }
     
@@ -63,7 +63,7 @@ export default function AdjustInventoryModal({ isOpen, onClose, inventoryItem, o
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full">
         <div className="flex justify-between items-center p-6 border-b border-gray-200 dark:border-gray-700">
           <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
-            {t('adjust.inventory')} - {inventoryItem.name}
+            {t('adjust.inventory.modal')} - {inventoryItem.name}
           </h2>
           <button
             onClick={onClose}
@@ -169,13 +169,13 @@ export default function AdjustInventoryModal({ isOpen, onClose, inventoryItem, o
             onClick={onClose}
             className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500"
           >
-            {t('cancel')}
+            {t('cancel.button')}
           </button>
           <button
             onClick={handleSubmit}
             className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            {t('save')}
+            {t('save.button')}
           </button>
         </div>
       </div>

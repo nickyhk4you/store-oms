@@ -30,12 +30,12 @@ export default function TransferInventoryModal({ isOpen, onClose, inventoryItem,
 
   const handleSubmit = () => {
     if (quantity <= 0 || quantity > (inventoryItem?.availableStock || 0)) {
-      setError(t('invalid.quantity'));
+      setError(t('invalid.quantity.error'));
       return;
     }
     
     if (!destination) {
-      setError(t('destination.required'));
+      setError(t('destination.required.error'));
       return;
     }
     
@@ -64,7 +64,7 @@ export default function TransferInventoryModal({ isOpen, onClose, inventoryItem,
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full">
         <div className="flex justify-between items-center p-6 border-b border-gray-200 dark:border-gray-700">
           <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
-            {t('transfer.inventory')} - {inventoryItem.name}
+            {t('transfer.inventory.modal')} - {inventoryItem.name}
           </h2>
           <button
             onClick={onClose}
@@ -123,7 +123,7 @@ export default function TransferInventoryModal({ isOpen, onClose, inventoryItem,
               onChange={(e) => setDestination(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md"
             >
-              <option value="">{t('select.destination')}</option>
+              <option value="">{t('select.destination.label')}</option>
               <option value="Online Warehouse">{t('online.warehouse')}</option>
               <option value="Beijing Flagship Store">{t('beijing.flagship.store')}</option>
               <option value="Shanghai Store">{t('shanghai.store')}</option>
@@ -152,7 +152,7 @@ export default function TransferInventoryModal({ isOpen, onClose, inventoryItem,
             onClick={onClose}
             className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500"
           >
-            {t('cancel')}
+            {t('cancel.button')}
           </button>
           <button
             onClick={handleSubmit}

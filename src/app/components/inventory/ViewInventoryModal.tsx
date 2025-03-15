@@ -174,7 +174,7 @@ export default function ViewInventoryModal({ isOpen, onClose, inventoryItem }: V
                               ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300'
                               : 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300'
                         }`}>
-                          {t(`stock.${item.type}`)}
+                          {t(`stock.${item.type}.status`)}
                         </span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
@@ -182,7 +182,7 @@ export default function ViewInventoryModal({ isOpen, onClose, inventoryItem }: V
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                         {item.type === 'adjusted' && item.reason}
-                        {item.type === 'transferred' && `${t('from')} ${item.fromLocation} ${t('to')} ${item.toLocation}`}
+                        {item.type === 'transferred' && `${t('from.label')} ${item.fromLocation} ${t('to')} ${item.toLocation}`}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                         {item.user}
@@ -200,7 +200,7 @@ export default function ViewInventoryModal({ isOpen, onClose, inventoryItem }: V
             onClick={onClose}
             className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500"
           >
-            {t('close')}
+            {t('close.button')}
           </button>
         </div>
       </div>
