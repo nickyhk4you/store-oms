@@ -2,6 +2,8 @@
 
 import { useLanguage } from '../../contexts/LanguageContext';
 import Link from "next/link";
+import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 interface OrderItem {
   id: string;
@@ -37,8 +39,23 @@ interface OrderDetailsProps {
   orderData: OrderData;
 }
 
-export default function OrderDetails({ orderData }: OrderDetailsProps) {
+export default function OrderDetails({ orderData: initialOrderData }: OrderDetailsProps) {
   const { t, language } = useLanguage();
+  const params = useParams();
+  const [orderData, setOrderData] = useState(initialOrderData);
+  
+  useEffect(() => {
+    // Get the ID from the URL
+    const id = params?.id as string;
+    if (id && id !== initialOrderData.id) {
+      // Update the order data with the correct ID
+      setOrderData({
+        ...initialOrderData,
+        id,
+        orderNumber: `ORD-2023-${id}`
+      });
+    }
+  }, [params, initialOrderData]);
   
   // 获取状态颜色的辅助函数
   function getStatusColor(status: string) {
