@@ -41,6 +41,16 @@ export default function SyncChannelModal({ isOpen, onClose, channel, onSync }: S
     });
   };
 
+  const simulateSync = async (message: string) => {
+    setSyncMessage(message);
+    // 模拟同步过程
+    return new Promise<void>((resolve) => {
+      setTimeout(() => {
+        resolve();
+      }, 1500); // 每个步骤模拟1.5秒
+    });
+  };
+
   const handleSync = async () => {
     if (!channel) return;
     
@@ -103,16 +113,6 @@ export default function SyncChannelModal({ isOpen, onClose, channel, onSync }: S
       setSyncMessage('');
       onClose();
     }, 1500);
-  };
-  
-  // Helper function to simulate async operations
-  const simulateSync = async (message: string) => {
-    setSyncMessage(message);
-    return new Promise<void>(resolve => {
-      setTimeout(() => {
-        resolve();
-      }, 1000);
-    });
   };
 
   if (!isOpen || !channel) return null;
