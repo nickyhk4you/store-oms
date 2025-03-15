@@ -1,11 +1,12 @@
-'use client';
-
 import Link from "next/link";
-import { useLanguage } from "../../contexts/LanguageContext";
+import { getTranslations } from "../../utils/translations"; // 创建一个服务器端翻译函数
 
-// 这是一个动态路由，将匹配如 /orders/ORD-001 的路径
+// 使用服务器组件参数
 export default function OrderDetailsPage({ params }: { params: { id: string } }) {
-  const { language, t } = useLanguage();
+  // 在服务器端获取语言和翻译
+  const language = 'zh'; // 从 cookie 或其他服务器端方法获取
+  const t = (key: string) => getTranslations(language, key);
+  
   const orderId = params.id;
   
   // 模拟特定订单的数据
