@@ -4,6 +4,7 @@ import "./globals.css";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import LanguageSwitcher from "./components/LanguageSwitcher";
 import Navigation from "./components/Navigation";
+import TopNavigation from './components/TopNavigation';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,6 +33,7 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <LanguageProvider>
+          <TopNavigation />
           <header className="bg-white dark:bg-gray-800 shadow-sm">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex justify-between h-16">
