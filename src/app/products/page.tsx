@@ -1,27 +1,32 @@
 'use client';
 
-import { useLanguage } from '../contexts/LanguageContext';
+import Link from "next/link";
+import { getTranslations } from "../utils/translations";
+import ComingSoon from "../components/ComingSoon";
 
 export default function ProductsPage() {
-  const { t } = useLanguage();
+  const language = 'zh'; // 从 cookie 或其他服务器端方法获取
+  const t = (key: string) => getTranslations(language, key);
+  
+  const productIcon = (
+    <svg className="w-24 h-24" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" />
+    </svg>
+  );
   
   return (
     <div className="min-h-screen p-8 font-[family-name:var(--font-geist-sans)]">
       <main className="max-w-7xl mx-auto">
         <div className="mb-8">
           <h1 className="text-3xl font-bold mb-2">{t('products')}</h1>
-          <p className="text-gray-600 dark:text-gray-300">{t('products.coming.soon')}</p>
+          <p className="text-gray-600 dark:text-gray-400">{t('products.coming.soon')}</p>
         </div>
         
-        <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md text-center">
-          <svg className="w-24 h-24 mx-auto text-gray-400 dark:text-gray-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
-          </svg>
-          <h2 className="text-2xl font-semibold mb-2">{t('coming.soon')}</h2>
-          <p className="text-gray-600 dark:text-gray-400 max-w-md mx-auto">
-            {t('products.page.description')}
-          </p>
-        </div>
+        <ComingSoon 
+          title={t('products')}
+          description={t('products.page.description')}
+          icon={productIcon}
+        />
       </main>
     </div>
   );
