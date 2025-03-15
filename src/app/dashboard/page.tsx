@@ -18,6 +18,7 @@ import {
   ChartOptions
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
+import { Chart } from 'chart.js';
 
 // 注册 Chart.js 组件
 ChartJS.register(
