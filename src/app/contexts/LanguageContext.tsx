@@ -10,7 +10,17 @@ interface LanguageContextType {
   t: (key: string) => string;
 }
 
-const translations = {
+// 创建一个类型安全的索引签名
+interface Translations {
+  [key: string]: string;
+}
+
+interface TranslationSet {
+  zh: Translations;
+  en: Translations;
+}
+
+const translations: TranslationSet = {
   zh: {
     // 通用
     'language': '语言',
@@ -87,21 +97,34 @@ const translations = {
     'all.statuses': '所有状态',
     'no.results': '没有找到匹配的订单',
     'items.per.page': '每页显示',
+    'dashboard.overview': '业务概览和关键指标',
+    'total.orders': '总订单数',
+    'from.last.month': '相比上月',
+    'avg.order.value': '平均订单金额',
+    'conversion.rate': '转化率',
+    'sales.trend': '销售趋势 (30天)',
+    'order.status.distribution': '订单状态分布',
+    'recent.orders': '最近订单',
+    'view.all': '查看全部',
+    'performance.metrics': '性能指标',
+    'return.rate': '退货率',
+    'customer.satisfaction': '客户满意度',
+    'home': '首页',
   },
   en: {
-    // Common
+    // General
     'language': 'Language',
     'chinese': 'Chinese',
     'english': 'English',
     
     // Home page
     'oms.title': 'Order Management System',
-    'oms.subtitle': 'Streamline your order processing and inventory management',
-    'order.management': 'Manage Orders',
-    'order.management.desc': 'View, process, and track all customer orders in one place.',
+    'oms.subtitle': 'Efficiently manage order processing and inventory tracking',
+    'order.management': 'Order Management',
+    'order.management.desc': 'View, process, and track all customer orders.',
     'view.orders': 'View Orders',
     'dashboard': 'Dashboard',
-    'dashboard.desc': 'Get insights into your business with real-time analytics.',
+    'dashboard.desc': 'Get business insights through real-time analytics.',
     'view.dashboard': 'View Dashboard',
     'quick.stats': 'Quick Stats',
     'pending.orders': 'Pending Orders',
@@ -110,7 +133,7 @@ const translations = {
     'avg.processing.time': 'Avg. Processing Time',
     'days': 'days',
     
-    // Orders page
+    // Orders list page
     'orders': 'Orders',
     'filter': 'Filter',
     'new.order': 'New Order',
@@ -129,7 +152,7 @@ const translations = {
     'previous': 'Previous',
     'next': 'Next',
     
-    // Order status
+    // Order statuses
     'status.completed': 'Completed',
     'status.processing': 'Processing',
     'status.pending': 'Pending',
@@ -164,6 +187,19 @@ const translations = {
     'all.statuses': 'All Statuses',
     'no.results': 'No matching orders found',
     'items.per.page': 'Items per page',
+    'dashboard.overview': 'Business overview and key metrics',
+    'total.orders': 'Total Orders',
+    'from.last.month': 'from last month',
+    'avg.order.value': 'Avg. Order Value',
+    'conversion.rate': 'Conversion Rate',
+    'sales.trend': 'Sales Trend (30 days)',
+    'order.status.distribution': 'Order Status Distribution',
+    'recent.orders': 'Recent Orders',
+    'view.all': 'View All',
+    'performance.metrics': 'Performance Metrics',
+    'return.rate': 'Return Rate',
+    'customer.satisfaction': 'Customer Satisfaction',
+    'home': 'Home',
   }
 };
 
@@ -174,15 +210,24 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     // 从本地存储中获取语言设置，如果没有则使用默认值
-    const savedLanguage = localStorage.getItem('language') as Language;
-    if (savedLanguage && (savedLanguage === 'zh' || savedLanguage === 'en')) {
-      setLanguageState(savedLanguage);
+    try {
+      const savedLanguage = localStorage.getItem('language') as Language;
+      if (savedLanguage && (savedLanguage === 'zh' || savedLanguage === 'en')) {
+        setLanguageState(savedLanguage);
+      }
+    } catch (error) {
+      // 如果localStorage不可用，使用默认语言
+      console.error('Error accessing localStorage:', error);
     }
   }, []);
 
   const setLanguage = (newLanguage: Language) => {
     setLanguageState(newLanguage);
-    localStorage.setItem('language', newLanguage);
+    try {
+      localStorage.setItem('language', newLanguage);
+    } catch (error) {
+      console.error('Error writing to localStorage:', error);
+    }
   };
 
   const t = (key: string): string => {
