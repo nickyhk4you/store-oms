@@ -1045,6 +1045,8 @@ export default function InventoryPage() {
                 <Pagination
                   currentPage={currentPage}
                   totalPages={Math.ceil(filteredInventory.length / itemsPerPage)}
+                  totalItems={filteredInventory.length}
+                  itemsPerPage={itemsPerPage}
                   onPageChange={setCurrentPage}
                 />
               </div>
@@ -1383,6 +1385,8 @@ export default function InventoryPage() {
                 <Pagination
                   currentPage={1}
                   totalPages={5}
+                  totalItems={50}  // 假设总共有50个项目
+                  itemsPerPage={10} // 假设每页显示10个项目
                   onPageChange={() => {}}
                 />
               </div>
