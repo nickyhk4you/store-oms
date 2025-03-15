@@ -1,89 +1,67 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useLanguage } from '../../contexts/LanguageContext';
 import Link from "next/link";
 import { getTranslations } from "../../utils/translations"; // 创建一个服务器端翻译函数
 
+// Define the correct props interface
+interface OrderPageProps {
+  params: {
+    id: string;
+  };
+}
+
 // 使用服务器组件参数
-export default function OrderDetailsPage({ params }: { params: { id: string } }) {
+export default function OrderDetailsPage({ params }: OrderPageProps) {
+  const { t, language } = useLanguage();
+  const [order, setOrder] = useState({});
+  const { id } = params;
+  
   // 在服务器端获取语言和翻译
-  const language = 'zh'; // 从 cookie 或其他服务器端方法获取
-  const t = (key: string) => getTranslations(language, key);
+  const tServer = (key: string) => getTranslations(language, key);
   
-  const orderId = params.id;
-  
-  // 模拟特定订单的数据
-  const zhOrder = {
-    id: orderId,
-    customer: {
-      name: "张三",
-      email: "zhangsan@example.com",
-      phone: "13800138000",
-      address: "北京市朝阳区某某街道123号"
-    },
-    date: "2023-05-15",
-    status: "已完成",
-    channel: "小红书",
-    paymentMethod: "支付宝",
-    shippingMethod: "顺丰速运",
-    items: [
-      {
-        id: "PROD-001",
-        name: "高级保湿面霜",
-        price: "¥299.00",
-        quantity: 1,
-        total: "¥299.00"
+  useEffect(() => {
+    // In a real app, you would fetch the order data based on the ID
+    console.log(`Fetching order with ID: ${id}`);
+    // For now, we'll just use our mock data
+    setOrder({
+      id: id,
+      orderNumber: `ORD-2023-${id}`,
+      customer: {
+        name: "张三",
+        email: "zhangsan@example.com",
+        phone: "13800138000",
+        address: "北京市朝阳区某某街道123号"
       },
-      {
-        id: "PROD-002",
-        name: "精华液",
-        price: "¥459.00",
-        quantity: 2,
-        total: "¥918.00"
-      }
-    ],
-    subtotal: "¥1,217.00",
-    shipping: "¥20.00",
-    tax: "¥73.02",
-    total: "¥1,310.02",
-    notes: "请在工作日送货，周末不在家。"
-  };
-  
-  const enOrder = {
-    id: orderId,
-    customer: {
-      name: "John Doe",
-      email: "johndoe@example.com",
-      phone: "+1 (555) 123-4567",
-      address: "123 Main St, Anytown, CA 12345, USA"
-    },
-    date: "2023-05-15",
-    status: "Completed",
-    channel: "Xiaohongshu",
-    paymentMethod: "PayPal",
-    shippingMethod: "Express Delivery",
-    items: [
-      {
-        id: "PROD-001",
-        name: "Premium Moisturizing Cream",
-        price: "$45.99",
-        quantity: 1,
-        total: "$45.99"
-      },
-      {
-        id: "PROD-002",
-        name: "Essence Serum",
-        price: "$69.99",
-        quantity: 2,
-        total: "$139.98"
-      }
-    ],
-    subtotal: "$185.97",
-    shipping: "$5.99",
-    tax: "$11.16",
-    total: "$203.12",
-    notes: "Please deliver on weekdays, not available on weekends."
-  };
-  
-  // 根据当前语言选择订单数据
-  const order = language === 'zh' ? zhOrder : enOrder;
+      date: "2023-05-15",
+      status: "已完成",
+      channel: "小红书",
+      paymentMethod: "支付宝",
+      shippingMethod: "顺丰速运",
+      items: [
+        {
+          id: "PROD-001",
+          name: "高级保湿面霜",
+          price: "¥299.00",
+          quantity: 1,
+          total: "¥299.00"
+        },
+        {
+          id: "PROD-002",
+          name: "精华液",
+          price: "¥459.00",
+          quantity: 2,
+          total: "¥918.00"
+        }
+      ],
+      subtotal: "¥1,217.00",
+      shipping: "¥20.00",
+      tax: "¥73.02",
+      total: "¥1,310.02",
+      notes: "请在工作日送货，周末不在家。"
+    });
+  }, [id]);
   
   // 获取状态颜色的辅助函数
   function getStatusColor(status: string) {
