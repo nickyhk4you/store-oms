@@ -1,8 +1,34 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import Link from 'next/link';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler
+} from 'chart.js';
+import { Line } from 'react-chartjs-2';
+
+// 注册 Chart.js 组件
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler
+);
 
 // 模拟数据生成函数
 const generateChartData = (days: number) => {
@@ -74,6 +100,7 @@ export default function DashboardPage() {
   const { language, t } = useLanguage();
   const [salesData, setSalesData] = useState<any[]>([]);
   const [recentOrders, setRecentOrders] = useState<any[]>([]);
+  const chartRef = useRef<ChartJS>(null);
   
   // 模拟订单状态分布
   const orderStatusData = language === 'zh' 
@@ -131,10 +158,99 @@ export default function DashboardPage() {
       }
     }
   }
-  
-  // 找出销售数据中的最大值，用于图表缩放
-  const maxSales = Math.max(...salesData.map(item => item.sales));
-  
+
+  // 准备图表数据
+  const chartData = {
+    labels: salesData.map(item => {
+      const date = new Date(item.date);
+      return `${date.getMonth() + 1}/${date.getDate()}`;
+    }),
+    datasets: [
+      {
+        label: language === 'zh' ? '销售额' : 'Sales',
+        data: salesData.map(item => item.sales),
+        borderColor: 'rgba(59, 130, 246, 1)', // Blue
+        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+        borderWidth: 2,
+        pointBackgroundColor: 'rgba(59, 130, 246, 1)',
+        pointBorderColor: '#fff',
+        pointBorderWidth: 1,
+        pointRadius: 4,
+        pointHoverRadius: 6,
+        tension: 0.4,
+        fill: true
+      }
+    ]
+  };
+
+  // 图表配置
+  const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: false,
+      },
+      tooltip: {
+        backgroundColor: 'rgba(17, 24, 39, 0.9)',
+        titleColor: '#fff',
+        bodyColor: '#fff',
+        padding: 12,
+        borderColor: 'rgba(107, 114, 128, 0.3)',
+        borderWidth: 1,
+        displayColors: false,
+        callbacks: {
+          title: (tooltipItems: any) => {
+            const index = tooltipItems[0].dataIndex;
+            return salesData[index]?.date;
+          },
+          label: (context: any) => {
+            const value = context.raw;
+            return language === 'zh' 
+              ? `¥${value.toLocaleString()}` 
+              : `$${(value / 6.8).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+          }
+        }
+      }
+    },
+    scales: {
+      x: {
+        grid: {
+          display: false,
+        },
+        ticks: {
+          maxRotation: 0,
+          autoSkip: true,
+          maxTicksLimit: 10
+        }
+      },
+      y: {
+        beginAtZero: true,
+        grid: {
+          color: 'rgba(156, 163, 175, 0.1)',
+        },
+        ticks: {
+          callback: (value: any) => {
+            if (value >= 1000) {
+              return language === 'zh' 
+                ? `¥${value / 1000}k` 
+                : `$${(value / 6.8 / 1000).toFixed(1)}k`;
+            }
+            return language === 'zh' ? `¥${value}` : `$${(value / 6.8).toFixed(2)}`;
+          }
+        }
+      }
+    },
+    interaction: {
+      mode: 'index',
+      intersect: false,
+    },
+    hover: {
+      mode: 'index',
+      intersect: false
+    }
+  };
+
   return (
     <div className="min-h-screen p-8 font-[family-name:var(--font-geist-sans)]">
       <main className="max-w-7xl mx-auto">
@@ -143,85 +259,64 @@ export default function DashboardPage() {
           <p className="text-gray-600 dark:text-gray-300">{t('dashboard.overview')}</p>
         </div>
         
-        {/* 统计卡片 */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold">{t('total.orders')}</h2>
-              <div className="p-2 bg-blue-100 dark:bg-blue-900 rounded-full">
-                <svg className="w-6 h-6 text-blue-600 dark:text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <h2 className="text-lg font-medium text-gray-700 dark:text-gray-300">{t('total.orders')}</h2>
+              <span className="p-2 bg-blue-100 dark:bg-blue-900 rounded-full">
+                <svg className="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
                 </svg>
-              </div>
+              </span>
             </div>
-            <div className="text-3xl font-bold">{totalOrders}</div>
-            <div className="text-sm text-green-600 dark:text-green-400 mt-2">+12.5% {t('from.last.month')}</div>
+            <div className="text-3xl font-bold mb-2">{totalOrders}</div>
+            <div className="text-sm text-green-600 dark:text-green-400">↑ 12% {t('from.last.month')}</div>
           </div>
           
           <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold">{t('total.revenue')}</h2>
-              <div className="p-2 bg-green-100 dark:bg-green-900 rounded-full">
-                <svg className="w-6 h-6 text-green-600 dark:text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <h2 className="text-lg font-medium text-gray-700 dark:text-gray-300">{t('total.revenue')}</h2>
+              <span className="p-2 bg-green-100 dark:bg-green-900 rounded-full">
+                <svg className="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>
-              </div>
+              </span>
             </div>
-            <div className="text-3xl font-bold">{language === 'zh' ? '¥248,520.40' : '$36,547.12'}</div>
-            <div className="text-sm text-green-600 dark:text-green-400 mt-2">+8.2% {t('from.last.month')}</div>
+            <div className="text-3xl font-bold mb-2">{language === 'zh' ? '¥42,850' : '$6,285'}</div>
+            <div className="text-sm text-green-600 dark:text-green-400">↑ 8.2% {t('from.last.month')}</div>
           </div>
           
           <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold">{t('avg.order.value')}</h2>
-              <div className="p-2 bg-purple-100 dark:bg-purple-900 rounded-full">
-                <svg className="w-6 h-6 text-purple-600 dark:text-purple-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <h2 className="text-lg font-medium text-gray-700 dark:text-gray-300">{t('avg.order.value')}</h2>
+              <span className="p-2 bg-purple-100 dark:bg-purple-900 rounded-full">
+                <svg className="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
                 </svg>
-              </div>
+              </span>
             </div>
-            <div className="text-3xl font-bold">{language === 'zh' ? '¥924.15' : '$135.90'}</div>
-            <div className="text-sm text-red-600 dark:text-red-400 mt-2">-2.3% {t('from.last.month')}</div>
+            <div className="text-3xl font-bold mb-2">{language === 'zh' ? '¥159.80' : '$23.50'}</div>
+            <div className="text-sm text-red-600 dark:text-red-400">↓ 2.3% {t('from.last.month')}</div>
           </div>
           
           <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold">{t('conversion.rate')}</h2>
-              <div className="p-2 bg-yellow-100 dark:bg-yellow-900 rounded-full">
-                <svg className="w-6 h-6 text-yellow-600 dark:text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <h2 className="text-lg font-medium text-gray-700 dark:text-gray-300">{t('conversion.rate')}</h2>
+              <span className="p-2 bg-yellow-100 dark:bg-yellow-900 rounded-full">
+                <svg className="w-6 h-6 text-yellow-600 dark:text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                 </svg>
-              </div>
+              </span>
             </div>
-            <div className="text-3xl font-bold">24.8%</div>
-            <div className="text-sm text-green-600 dark:text-green-400 mt-2">+3.1% {t('from.last.month')}</div>
+            <div className="text-3xl font-bold mb-2">3.6%</div>
+            <div className="text-sm text-green-600 dark:text-green-400">↑ 0.8% {t('from.last.month')}</div>
           </div>
         </div>
         
-        {/* 销售趋势图表 */}
         <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md mb-8">
           <h2 className="text-xl font-semibold mb-6">{t('sales.trend')}</h2>
           <div className="h-80">
-            <div className="flex h-64 items-end space-x-2">
-              {salesData.map((item, index) => (
-                <div key={index} className="flex flex-col items-center flex-1">
-                  <div 
-                    className="w-full bg-blue-500 rounded-t"
-                    style={{ 
-                      height: `${(item.sales / maxSales) * 100}%`,
-                      minHeight: '4px'
-                    }}
-                  ></div>
-                  <div className="text-xs mt-2 text-gray-600 dark:text-gray-400">
-                    {item.date.split('-')[2]}
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="flex justify-between mt-4 text-sm text-gray-600 dark:text-gray-400">
-              <div>{salesData[0]?.date.split('-').slice(0, 2).join('-')}</div>
-              <div>{salesData[salesData.length - 1]?.date.split('-').slice(0, 2).join('-')}</div>
-            </div>
+            <Line ref={chartRef} data={chartData} options={chartOptions} />
           </div>
         </div>
         

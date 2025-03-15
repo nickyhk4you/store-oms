@@ -110,6 +110,13 @@ const translations: TranslationSet = {
     'return.rate': '退货率',
     'customer.satisfaction': '客户满意度',
     'home': '首页',
+    'products': '产品管理',
+    'customers': '客户管理',
+    'coming.soon': '即将推出',
+    'products.coming.soon': '产品管理功能即将推出',
+    'customers.coming.soon': '客户管理功能即将推出',
+    'products.page.description': '产品管理功能正在开发中，敬请期待。您将能够添加、编辑和管理所有产品信息。',
+    'customers.page.description': '客户管理功能正在开发中，敬请期待。您将能够查看客户信息、订单历史和管理客户关系。',
   },
   en: {
     // General
@@ -200,6 +207,13 @@ const translations: TranslationSet = {
     'return.rate': 'Return Rate',
     'customer.satisfaction': 'Customer Satisfaction',
     'home': 'Home',
+    'products': 'Products',
+    'customers': 'Customers',
+    'coming.soon': 'Coming Soon',
+    'products.coming.soon': 'Product management features coming soon',
+    'customers.coming.soon': 'Customer management features coming soon',
+    'products.page.description': 'Product management features are under development. You will be able to add, edit, and manage all product information.',
+    'customers.page.description': 'Customer management features are under development. You will be able to view customer information, order history, and manage customer relationships.',
   }
 };
 
