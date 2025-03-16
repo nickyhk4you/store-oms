@@ -14,6 +14,7 @@ export interface OrderFilters {
   endDate: string;
   status: string;
   channel: string;
+  storeId: string;
 }
 
 export default function OrderSearch({ onSearch }: OrderSearchProps) {
@@ -25,7 +26,8 @@ export default function OrderSearch({ onSearch }: OrderSearchProps) {
     startDate: '',
     endDate: '',
     status: '',
-    channel: ''
+    channel: '',
+    storeId: ''
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -48,7 +50,8 @@ export default function OrderSearch({ onSearch }: OrderSearchProps) {
       startDate: '',
       endDate: '',
       status: '',
-      channel: ''
+      channel: '',
+      storeId: ''
     });
     onSearch({
       orderId: '',
@@ -56,7 +59,8 @@ export default function OrderSearch({ onSearch }: OrderSearchProps) {
       startDate: '',
       endDate: '',
       status: '',
-      channel: ''
+      channel: '',
+      storeId: ''
     });
   };
 
@@ -97,6 +101,14 @@ export default function OrderSearch({ onSearch }: OrderSearchProps) {
         { value: 'Offline Store', label: 'Offline Store' },
         { value: 'Other', label: 'Other' }
       ];
+
+  const stores = [
+    { id: 'store-001', name: language === 'zh' ? '北京中关村店' : 'Beijing Zhongguancun Store' },
+    { id: 'store-002', name: language === 'zh' ? '上海南京路店' : 'Shanghai Nanjing Road Store' },
+    { id: 'store-003', name: language === 'zh' ? '广州天河城店' : 'Guangzhou Tianhe Store' },
+    { id: 'store-004', name: language === 'zh' ? '深圳华强北店' : 'Shenzhen Huaqiangbei Store' },
+    { id: 'store-005', name: language === 'zh' ? '成都春熙路店' : 'Chengdu Chunxi Road Store' },
+  ];
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md mb-6">
@@ -210,6 +222,26 @@ export default function OrderSearch({ onSearch }: OrderSearchProps) {
                   onChange={handleChange}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white text-sm"
                 />
+              </div>
+
+              <div>
+                <label htmlFor="storeId" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  {t('store')}
+                </label>
+                <select
+                  id="storeId"
+                  name="storeId"
+                  value={filters.storeId}
+                  onChange={handleChange}
+                  className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md dark:bg-gray-700"
+                >
+                  <option value="">{t('all.stores')}</option>
+                  {stores.map(store => (
+                    <option key={store.id} value={store.id}>
+                      {store.name}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
             
