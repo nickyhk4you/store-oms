@@ -1,5 +1,8 @@
+/** @type {import('next').NextConfig} */
 const nextConfig = {
-  // ... 其他配置
+  images: {
+    domains: ['images.coach.com', 'img.coach.com'],
+  },
   async redirects() {
     return [
       // ... 其他重定向
@@ -10,4 +13,6 @@ const nextConfig = {
       },
     ]
   },
-} 
+}
+
+module.exports = nextConfig 
