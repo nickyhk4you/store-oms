@@ -6,11 +6,11 @@ const nextConfig = {
   async redirects() {
     return [
       // ... 其他重定向
-      {
-        source: '/inventory',
-        destination: '/inventory',
-        permanent: true,
-      },
+      // {
+      //   source: '/inventory',
+      //   destination: '/inventory',
+      //   permanent: true,
+      // },
     ]
   },
 }
