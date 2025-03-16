@@ -1,12 +1,14 @@
 'use client';
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useLanguage } from "../contexts/LanguageContext";
 import LanguageSwitcher from './LanguageSwitcher';
 import ThemeSwitcher from './ThemeSwitcher';
 
 export default function Navigation() {
   const { t } = useLanguage();
+  const pathname = usePathname();
   
   return (
     <nav className="bg-white dark:bg-neutral-900 border-b border-[#C3A080]/20 dark:border-neutral-800">
