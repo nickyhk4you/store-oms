@@ -459,6 +459,9 @@ const enTranslations = {
   'products.out.of.stock': 'Products Out of Stock',
   'view.products': 'View Products',
   'place.order': 'Place Order',
+  'order.distribution.by.province': 'Order Distribution by Province',
+  'high': 'High',
+  'low': 'Low',
 };
 
 export default enTranslations; 

@@ -293,6 +293,9 @@ const zhTranslations = {
   'left': '剩余',
   'adjust': '调整',
   'transfer': '转移',
+  'order.distribution.by.province': '各省份订单分布',
+  'high': '高',
+  'low': '低',
 };
 
 export default zhTranslations;

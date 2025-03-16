@@ -19,6 +19,7 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import { Chart } from 'chart.js';
+import ChinaMapChart from '../components/dashboard/ChinaMapChart';
 
 // 注册 Chart.js 组件
 ChartJS.register(
@@ -113,11 +114,28 @@ const generateRecentOrders = (language: string, count: number) => {
   return orders;
 };
 
+// 模拟省份订单数据
+const generateProvinceOrderData = () => {
+  const provinces = [
+    '北京', '天津', '河北', '山西', '内蒙古', '辽宁', '吉林', '黑龙江', 
+    '上海', '江苏', '浙江', '安徽', '福建', '江西', '山东', '河南', 
+    '湖北', '湖南', '广东', '广西', '海南', '重庆', '四川', '贵州', 
+    '云南', '西藏', '陕西', '甘肃', '青海', '宁夏', '新疆', '台湾', 
+    '香港', '澳门'
+  ];
+  
+  return provinces.map(province => ({
+    name: province,
+    value: Math.floor(Math.random() * 1000) + 50
+  }));
+};
+
 export default function DashboardPage() {
   const { language, t } = useLanguage();
   const [salesData, setSalesData] = useState<SalesDataPoint[]>([]);
   const [recentOrders, setRecentOrders] = useState<OrderItem[]>([]);
   const chartRef = useRef<Chart<"line">>(null);
+  const [provinceData, setProvinceData] = useState([]);
   
   // 模拟订单状态分布
   const orderStatusData = language === 'zh' 
@@ -143,6 +161,9 @@ export default function DashboardPage() {
     
     // 生成最近订单
     setRecentOrders(generateRecentOrders(language, 5));
+    
+    // 生成模拟省份订单数据
+    setProvinceData(generateProvinceOrderData());
   }, [language]);
   
   // 获取状态颜色的辅助函数
@@ -401,6 +422,11 @@ export default function DashboardPage() {
               </table>
             </div>
           </div>
+        </div>
+        
+        {/* 中国地图 */}
+        <div className="mb-6">
+          <ChinaMapChart data={provinceData} />
         </div>
         
         {/* 性能指标 */}
