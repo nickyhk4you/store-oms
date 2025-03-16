@@ -2,67 +2,120 @@
 
 import Link from "next/link";
 import { useLanguage } from "../contexts/LanguageContext";
+import LanguageSwitcher from './LanguageSwitcher';
+import ThemeSwitcher from './ThemeSwitcher';
 
 export default function Navigation() {
   const { t } = useLanguage();
   
   return (
-    <div className="flex">
-      <div className="flex-shrink-0 flex items-center">
-        <Link href="/" className="text-xl font-bold flex items-center">
-          <svg className="w-6 h-6 mr-2 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
-          </svg>
-          Store OMS
-        </Link>
+    <nav className="bg-white dark:bg-neutral-900 border-b border-[#C3A080]/20 dark:border-neutral-800">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between h-16">
+          <div className="flex">
+            <div className="flex-shrink-0 flex items-center">
+              <Link href="/" className="flex items-center">
+                {/* Coach 标志 */}
+                <svg className="h-8 w-auto mr-2" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M50 95C74.8528 95 95 74.8528 95 50C95 25.1472 74.8528 5 50 5C25.1472 5 5 25.1472 5 50C5 74.8528 25.1472 95 50 95Z" fill="#F5EFE0" stroke="#6B4423" strokeWidth="2"/>
+                  <path d="M30 40C30 35.5817 33.5817 32 38 32H62C66.4183 32 70 35.5817 70 40V60C70 64.4183 66.4183 68 62 68H38C33.5817 68 30 64.4183 30 60V40Z" fill="#6B4423"/>
+                  <path d="M38 50H62" stroke="#F5EFE0" strokeWidth="2" strokeLinecap="round"/>
+                  <path d="M50 38V62" stroke="#F5EFE0" strokeWidth="2" strokeLinecap="round"/>
+                </svg>
+                <span className="text-xl font-serif font-bold text-[#6B4423] dark:text-[#C3A080]">
+                  Coach Store OMS
+                </span>
+              </Link>
+            </div>
+            <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
+              <Link 
+                href="/" 
+                className="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-neutral-600 hover:text-[#6B4423] hover:border-[#C3A080] dark:text-neutral-300 dark:hover:text-[#C3A080] dark:hover:border-[#6B4423]"
+              >
+                <svg className="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                </svg>
+                {t('home')}
+              </Link>
+              <Link 
+                href="/orders" 
+                className="inline-flex items-center px-1 pt-1 border-b-2 border-[#6B4423] text-sm font-medium text-[#6B4423] dark:border-[#C3A080] dark:text-[#C3A080]"
+              >
+                <svg className="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                </svg>
+                {t('orders')}
+              </Link>
+              <Link 
+                href="/products" 
+                className="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-neutral-600 hover:text-[#6B4423] hover:border-[#C3A080] dark:text-neutral-300 dark:hover:text-[#C3A080] dark:hover:border-[#6B4423]"
+              >
+                <svg className="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                </svg>
+                {t('products')}
+              </Link>
+              <Link 
+                href="/dashboard" 
+                className="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium text-neutral-600 hover:text-[#6B4423] hover:border-[#C3A080] dark:text-neutral-300 dark:hover:text-[#C3A080] dark:hover:border-[#6B4423]"
+              >
+                <svg className="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
+                {t('dashboard')}
+              </Link>
+            </div>
+          </div>
+          <div className="flex items-center">
+            <LanguageSwitcher />
+            <ThemeSwitcher />
+            <div className="ml-4 flex items-center">
+              <button className="bg-[#F5EFE0] p-1 rounded-full text-[#6B4423] hover:bg-[#C3A080]/20 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#6B4423] dark:bg-[#6B4423]/10 dark:text-[#C3A080]">
+                <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                </svg>
+              </button>
+              <div className="ml-3 relative">
+                <div>
+                  <button className="flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#6B4423]">
+                    <img className="h-8 w-8 rounded-full border-2 border-[#C3A080]" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <nav className="ml-6 flex space-x-8">
-        <Link 
-          href="/" 
-          className="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium hover:border-gray-300 dark:hover:border-gray-600"
-        >
-          <svg className="w-5 h-5 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-          </svg>
-          {t('home')}
-        </Link>
-        <Link 
-          href="/dashboard" 
-          className="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium hover:border-gray-300 dark:hover:border-gray-600"
-        >
-          <svg className="w-5 h-5 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
-          </svg>
-          {t('dashboard')}
-        </Link>
-        <Link 
-          href="/orders" 
-          className="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium hover:border-gray-300 dark:hover:border-gray-600"
-        >
-          <svg className="w-5 h-5 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z" />
-          </svg>
-          {t('orders')}
-        </Link>
-        <Link 
-          href="/products" 
-          className="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium hover:border-gray-300 dark:hover:border-gray-600"
-        >
-          <svg className="w-5 h-5 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m6 4.125l2.25 2.25m0 0l2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
-          </svg>
-          {t('products')}
-        </Link>
-        <Link 
-          href="/customers" 
-          className="inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium hover:border-gray-300 dark:hover:border-gray-600"
-        >
-          <svg className="w-5 h-5 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
-          </svg>
-          {t('customers')}
-        </Link>
-      </nav>
-    </div>
+      
+      {/* 移动端导航菜单 */}
+      <div className="sm:hidden border-t border-[#C3A080]/20 dark:border-neutral-800">
+        <div className="pt-2 pb-3 space-y-1">
+          <Link 
+            href="/" 
+            className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-neutral-600 hover:text-[#6B4423] hover:bg-[#F5EFE0] hover:border-[#C3A080] dark:text-neutral-300 dark:hover:text-[#C3A080] dark:hover:bg-neutral-800 dark:hover:border-[#6B4423]"
+          >
+            {t('home')}
+          </Link>
+          <Link 
+            href="/orders" 
+            className="block pl-3 pr-4 py-2 border-l-4 border-[#6B4423] bg-[#F5EFE0]/50 text-base font-medium text-[#6B4423] dark:border-[#C3A080] dark:bg-[#6B4423]/10 dark:text-[#C3A080]"
+          >
+            {t('orders')}
+          </Link>
+          <Link 
+            href="/products" 
+            className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-neutral-600 hover:text-[#6B4423] hover:bg-[#F5EFE0] hover:border-[#C3A080] dark:text-neutral-300 dark:hover:text-[#C3A080] dark:hover:bg-neutral-800 dark:hover:border-[#6B4423]"
+          >
+            {t('products')}
+          </Link>
+          <Link 
+            href="/dashboard" 
+            className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-neutral-600 hover:text-[#6B4423] hover:bg-[#F5EFE0] hover:border-[#C3A080] dark:text-neutral-300 dark:hover:text-[#C3A080] dark:hover:bg-neutral-800 dark:hover:border-[#6B4423]"
+          >
+            {t('dashboard')}
+          </Link>
+        </div>
+      </div>
+    </nav>
   );
 } 

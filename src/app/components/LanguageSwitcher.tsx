@@ -32,51 +32,17 @@ export default function LanguageSwitcher() {
   }, []);
 
   return (
-    <div className="relative" ref={dropdownRef}>
+    <div className="relative inline-block text-left">
       <button
-        onClick={toggleDropdown}
-        className="flex items-center text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white focus:outline-none"
+        type="button"
+        className="inline-flex justify-center items-center px-3 py-2 border border-[#C3A080]/30 rounded-md shadow-sm text-sm font-medium text-[#6B4423] dark:text-[#C3A080] bg-white dark:bg-neutral-800 hover:bg-[#F5EFE0] dark:hover:bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#6B4423]"
+        onClick={() => setLanguage(language === 'en' ? 'zh' : 'en')}
       >
-        <span>{t('language')}</span>
-        <svg
-          className={`ml-1 h-5 w-5 transition-transform ${isOpen ? 'rotate-180' : ''}`}
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          aria-hidden="true"
-        >
-          <path
-            fillRule="evenodd"
-            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-            clipRule="evenodd"
-          />
+        <svg className="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
         </svg>
+        {language === 'en' ? '中文' : 'English'}
       </button>
-
-      {isOpen && (
-        <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 z-10">
-          <div className="py-1" role="menu" aria-orientation="vertical">
-            <button
-              onClick={() => changeLanguage('zh')}
-              className={`${
-                language === 'zh' ? 'bg-gray-100 dark:bg-gray-700' : ''
-              } block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 w-full text-left`}
-              role="menuitem"
-            >
-              {t('chinese')}
-            </button>
-            <button
-              onClick={() => changeLanguage('en')}
-              className={`${
-                language === 'en' ? 'bg-gray-100 dark:bg-gray-700' : ''
-              } block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 w-full text-left`}
-              role="menuitem"
-            >
-              {t('english')}
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   );
 } 

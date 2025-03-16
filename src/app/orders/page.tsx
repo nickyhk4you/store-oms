@@ -9,6 +9,8 @@ import OrderActions from "../components/orders/OrderActions";
 import SplitOrderModal from "../components/orders/SplitOrderModal";
 import MergeOrdersModal from "../components/orders/MergeOrdersModal";
 import React from 'react';
+import { statusColors } from "../styles/theme";
+import StatusBadge from "../components/StatusBadge";
 
 // 获取订单状态对应的颜色类
 function getStatusColor(status: string): string {
@@ -264,6 +266,7 @@ export default function OrdersPage() {
   const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
   const [isSplitModalOpen, setIsSplitModalOpen] = useState(false);
   const [isMergeModalOpen, setIsMergeModalOpen] = useState(false);
+  const [viewMode, setViewMode] = useState<'table' | 'cards'>('table');
   
   const itemsPerPage = 10;
 
@@ -543,10 +546,33 @@ export default function OrdersPage() {
     <div className="min-h-screen p-8 font-[family-name:var(--font-geist-sans)]">
       <main className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold">{t('orders')}</h1>
-          <button className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm font-medium">
-            {t('new.order')}
-          </button>
+          <h1 className="text-3xl font-bold text-[#6B4423] dark:text-[#C3A080]">{t('orders')}</h1>
+          <div className="flex space-x-2">
+            <div className="flex bg-white dark:bg-neutral-800 rounded-md shadow-sm p-1 mr-4">
+              <button 
+                onClick={() => setViewMode('table')} 
+                className={`px-3 py-1 rounded ${viewMode === 'table' ? 'bg-[#6B4423] text-white' : 'text-[#6B4423]'}`}
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M3 14h18M3 18h18M3 6h18" />
+                </svg>
+              </button>
+              <button 
+                onClick={() => setViewMode('cards')} 
+                className={`px-3 py-1 rounded ${viewMode === 'cards' ? 'bg-[#6B4423] text-white' : 'text-[#6B4423]'}`}
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                </svg>
+              </button>
+            </div>
+            <button className="btn-primary flex items-center">
+              <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+              </svg>
+              {t('new.order')}
+            </button>
+          </div>
         </div>
         
         <OrderSearch onSearch={handleSearch} />
@@ -554,54 +580,108 @@ export default function OrdersPage() {
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
           {filteredOrders.length > 0 ? (
             <>
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead className="bg-gray-50 dark:bg-gray-700 text-xs uppercase text-gray-700 dark:text-gray-300">
-                    <tr>
-                      <th className="px-6 py-3 text-left">{t('order.id')}</th>
-                      <th className="px-6 py-3 text-left">{t('customer')}</th>
-                      <th className="px-6 py-3 text-left">{t('channel')}</th>
-                      <th className="px-6 py-3 text-left">{t('store')}</th>
-                      <th className="px-6 py-3 text-left">{t('date')}</th>
-                      <th className="px-6 py-3 text-left">{t('status')}</th>
-                      <th className="px-6 py-3 text-right">{t('total')}</th>
-                      <th className="px-6 py-3 text-right">{t('actions')}</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-200 dark:divide-gray-600">
-                    {getCurrentPageOrders().map((order, index) => (
-                      <tr key={index} className="hover:bg-gray-50 dark:hover:bg-gray-700">
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <Link href={`/orders/${order.id}`} className="text-blue-600 hover:underline">
+              {viewMode === 'table' ? (
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead className="bg-gray-50 dark:bg-gray-700 text-xs uppercase text-gray-700 dark:text-gray-300">
+                      <tr>
+                        <th className="px-6 py-3 text-left">{t('order.id')}</th>
+                        <th className="px-6 py-3 text-left">{t('customer')}</th>
+                        <th className="px-6 py-3 text-left">{t('channel')}</th>
+                        <th className="px-6 py-3 text-left">{t('store')}</th>
+                        <th className="px-6 py-3 text-left">{t('date')}</th>
+                        <th className="px-6 py-3 text-left">{t('status')}</th>
+                        <th className="px-6 py-3 text-right">{t('total')}</th>
+                        <th className="px-6 py-3 text-right">{t('actions')}</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200 dark:divide-gray-600">
+                      {getCurrentPageOrders().map((order, index) => (
+                        <tr key={index} className="hover:bg-gray-50 dark:hover:bg-gray-700">
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <Link href={`/orders/${order.id}`} className="text-blue-600 hover:underline">
+                              {order.id}
+                            </Link>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">{order.customer.name}</td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            {getChannelIcon(order.channel)}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            {order.store ? order.store.name : '-'}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">{order.date}</td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <StatusBadge status={order.status} />
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-right">{order.total}</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-right">
+                            <OrderActions 
+                              orderId={order.id}
+                              onSplit={() => handleSplitOrder(order.id)}
+                              onMerge={() => handleMergeOrder(order.id)}
+                            />
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {getCurrentPageOrders().map((order, index) => (
+                    <div key={index} className="coach-card p-4 flex flex-col">
+                      <div className="flex justify-between items-start mb-3">
+                        <div>
+                          <Link href={`/orders/${order.id}`} className="text-[#6B4423] hover:text-[#5A381D] dark:text-[#C3A080] dark:hover:text-[#D4AF37] font-medium">
                             {order.id}
                           </Link>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">{order.customer.name}</td>
-                        <td className="px-6 py-4 whitespace-nowrap">
+                          <p className="text-xs text-neutral-500 dark:text-neutral-400">{order.date}</p>
+                        </div>
+                        <StatusBadge status={order.status} />
+                      </div>
+                      
+                      <div className="flex-grow">
+                        <div className="flex items-center mb-2">
+                          <svg className="w-4 h-4 text-neutral-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                          </svg>
+                          <span className="text-sm">{order.customer.name}</span>
+                        </div>
+                        
+                        <div className="flex items-center mb-2">
                           {getChannelIcon(order.channel)}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          {order.store ? order.store.name : '-'}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">{order.date}</td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <span className={`px-2 py-1 text-xs rounded-full ${getStatusColor(order.status)}`}>
-                            {order.status}
-                          </span>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-right">{order.total}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-right">
-                          <OrderActions 
-                            orderId={order.id}
-                            onSplit={() => handleSplitOrder(order.id)}
-                            onMerge={() => handleMergeOrder(order.id)}
-                          />
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                        </div>
+                        
+                        {order.store && (
+                          <div className="flex items-center mb-2">
+                            <svg className="w-4 h-4 text-neutral-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                            </svg>
+                            <span className="text-sm">{order.store.name}</span>
+                          </div>
+                        )}
+                        
+                        <div className="flex items-center">
+                          <svg className="w-4 h-4 text-neutral-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                          </svg>
+                          <span className="text-sm">{order.items.length} {t('items')}</span>
+                        </div>
+                      </div>
+                      
+                      <div className="mt-4 pt-3 border-t border-neutral-200 dark:border-neutral-700 flex justify-between items-center">
+                        <span className="font-bold text-[#6B4423] dark:text-[#C3A080]">{order.total}</span>
+                        <OrderActions 
+                          orderId={order.id}
+                          onSplit={() => handleSplitOrder(order.id)}
+                          onMerge={() => handleMergeOrder(order.id)}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
               
               <Pagination
                 currentPage={currentPage}
@@ -612,7 +692,10 @@ export default function OrdersPage() {
               />
             </>
           ) : (
-            <div className="p-8 text-center text-gray-500 dark:text-gray-400">
+            <div className="p-8 text-center text-neutral-500 dark:text-neutral-400 bg-white dark:bg-neutral-800 rounded-lg shadow-md">
+              <svg className="w-16 h-16 mx-auto mb-4 text-neutral-300 dark:text-neutral-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
               {t('no.results')}
             </div>
           )}
